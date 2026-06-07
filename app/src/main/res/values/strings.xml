@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Oscar-App</string>
+    <string name="app_name">Oscar App</string>
+    <string name="title_boas_vindas">Oscar App</string>
+    <string name="token_label">Token de Votação:</string>
+    <string name="btn_votar_filme">Votar Filme</string>
+    <string name="btn_votar_diretor">Votar Diretor</string>
+    <string name="btn_confirmar_voto">Confirmar Voto</string>
+    <string name="btn_ver_votos">Ver Votos Confirmados</string>
+    <string name="btn_sair">Sair</string>
+    <string name="label_filme_selecionado">Filme Selecionado:</string>
+    <string name="label_diretor_selecionado">Diretor Selecionado:</string>
+    <string name="hint_token">Digite seu Token</string>
 </resources>

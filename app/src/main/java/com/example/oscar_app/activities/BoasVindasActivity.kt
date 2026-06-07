@@ -18,6 +18,13 @@ class BoasVindasActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        // Sincronizar VoteManager com a sessão (caso o usuário já tenha votado)
+        if (sessionManager.hasVoted()) {
+            VoteManager.voto.confirmado = true
+            VoteManager.voto.filmeNome = sessionManager.getVotedFilme()
+            VoteManager.voto.diretorNome = sessionManager.getVotedDiretor()
+        }
+
         // Exibir token recebido
         val token = sessionManager.getToken()
         binding.tvToken.text = if (token != -1) token.toString() else "N/A"
@@ -26,6 +33,10 @@ class BoasVindasActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
+        if (sessionManager.hasVoted()) {
+            binding.btnConfirmarVoto.setText(com.example.oscar_app.R.string.btn_ver_votos)
+        }
+
         binding.btnVotarFilme.setOnClickListener {
             startActivity(Intent(this, ListaFilmesActivity::class.java))
         }
@@ -40,6 +51,7 @@ class BoasVindasActivity : AppCompatActivity() {
 
         binding.btnSair.setOnClickListener {
             sessionManager.clearSession()
+            VoteManager.reset()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }

@@ -16,9 +16,17 @@ class SessionManager(context: Context) {
         }
     }
 
-    fun setHasVoted(hasVoted: Boolean) {
-        prefs.edit().putBoolean("hasVoted", hasVoted).apply()
+    fun setHasVoted(hasVoted: Boolean, filmeNome: String? = null, diretorNome: String? = null) {
+        prefs.edit().apply {
+            putBoolean("hasVoted", hasVoted)
+            putString("filmeNome", filmeNome)
+            putString("diretorNome", diretorNome)
+            apply()
+        }
     }
+
+    fun getVotedFilme(): String? = prefs.getString("filmeNome", null)
+    fun getVotedDiretor(): String? = prefs.getString("diretorNome", null)
 
     fun hasVoted(): Boolean = prefs.getBoolean("hasVoted", false)
 

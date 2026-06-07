@@ -70,7 +70,7 @@ class ConfirmarVotoActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 binding.pbConfirmar.visibility = View.GONE
                 if (response.isSuccessful) {
-                    sessionManager.setHasVoted(true)
+                    sessionManager.setHasVoted(true, VoteManager.voto.filmeNome, VoteManager.voto.diretorNome)
                     VoteManager.voto.confirmado = true
                     exibirFeedback(true, "Voto registrado com sucesso!")
                 } else {
