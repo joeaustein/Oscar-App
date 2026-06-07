@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.oscar_app.api.OscarApiService
 import com.example.oscar_app.databinding.ActivityVotarDiretorBinding
 import com.example.oscar_app.models.Diretor
+import com.example.oscar_app.session.SessionManager
 import com.example.oscar_app.session.VoteManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,6 +17,7 @@ import retrofit2.Response
 class VotarDiretorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVotarDiretorBinding
+    private lateinit var sessionManager: SessionManager
     private val apiService by lazy { OscarApiService.create() }
     private var diretoresList: List<Diretor> = emptyList()
 
@@ -24,8 +26,11 @@ class VotarDiretorActivity : AppCompatActivity() {
         binding = ActivityVotarDiretorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (VoteManager.voto.confirmado) {
+        sessionManager = SessionManager(this)
+
+        if (VoteManager.voto.confirmado || sessionManager.hasVoted()) {
             binding.btnConfirmarDiretor.isEnabled = false
+            binding.btnConfirmarDiretor.text = "Voto Confirmado"
         }
 
         carregarDiretores()

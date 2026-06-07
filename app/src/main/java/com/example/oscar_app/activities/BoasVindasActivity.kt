@@ -35,7 +35,7 @@ class BoasVindasActivity : AppCompatActivity() {
         }
 
         binding.btnConfirmarVoto.setOnClickListener {
-            // Ir para Confirmar Voto (será implementado na fase 14)
+            startActivity(Intent(this, ConfirmarVotoActivity::class.java))
         }
 
         binding.btnSair.setOnClickListener {

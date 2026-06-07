@@ -16,6 +16,12 @@ class SessionManager(context: Context) {
         }
     }
 
+    fun setHasVoted(hasVoted: Boolean) {
+        prefs.edit().putBoolean("hasVoted", hasVoted).apply()
+    }
+
+    fun hasVoted(): Boolean = prefs.getBoolean("hasVoted", false)
+
     fun getUserId(): Int = prefs.getInt("userId", -1)
     fun getLogin(): String? = prefs.getString("login", null)
     fun getToken(): Int = prefs.getInt("token", -1)
