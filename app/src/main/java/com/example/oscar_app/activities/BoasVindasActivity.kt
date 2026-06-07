@@ -27,11 +27,11 @@ class BoasVindasActivity : AppCompatActivity() {
 
     private fun setupButtons() {
         binding.btnVotarFilme.setOnClickListener {
-            // Ir para Votar Filme (será implementado na fase 10)
+            startActivity(Intent(this, ListaFilmesActivity::class.java))
         }
 
         binding.btnVotarDiretor.setOnClickListener {
-            // Ir para Votar Diretor (será implementado na fase 12)
+            startActivity(Intent(this, VotarDiretorActivity::class.java))
         }
 
         binding.btnConfirmarVoto.setOnClickListener {

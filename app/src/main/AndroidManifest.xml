@@ -27,6 +27,15 @@
             android:name=".activities.BoasVindasActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ListaFilmesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.FilmeDetalheActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.VotarDiretorActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="false" />
     </application>
