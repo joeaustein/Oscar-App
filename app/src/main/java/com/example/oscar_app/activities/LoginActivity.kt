@@ -58,10 +58,15 @@ class LoginActivity : AppCompatActivity() {
                         )
                         openBoasVindas()
                     } else {
-                        exibirErro("Login ou senha incorretos")
+                        exibirErro("Falha na autenticação")
                     }
                 } else {
-                    exibirErro("Erro no servidor: ${response.code()}")
+                    val msg = when (response.code()) {
+                        401 -> "Login ou senha incorretos"
+                        400 -> "Dados de login inválidos"
+                        else -> "Erro no servidor: ${response.code()}"
+                    }
+                    exibirErro(msg)
                 }
             }
 

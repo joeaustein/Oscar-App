@@ -1,7 +1,10 @@
 package com.example.oscar_app.models
 
+import com.google.gson.annotations.SerializedName
+
 data class LoginResponse(
     val success: Boolean,
     val token: Int,
-    val id: Int? = null // Added to store userId as per Phase 8
+    @SerializedName("usuarioId")
+    val id: Int? = null
 )

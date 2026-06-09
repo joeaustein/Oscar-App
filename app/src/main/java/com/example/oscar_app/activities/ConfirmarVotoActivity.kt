@@ -75,8 +75,9 @@ class ConfirmarVotoActivity : AppCompatActivity() {
                     exibirFeedback(true, "Voto registrado com sucesso!")
                 } else {
                     val msg = when (response.code()) {
-                        401 -> "Token inválido"
-                        400 -> "Usuário já votou ou dados inválidos"
+                        403 -> "Token inválido"
+                        409 -> "Usuário já possui um voto registrado"
+                        404 -> "Usuário não encontrado"
                         else -> "Erro no servidor: ${response.code()}"
                     }
                     exibirFeedback(false, msg)
