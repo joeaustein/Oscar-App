@@ -39,12 +39,12 @@ Para que o App funcione corretamente, ele precisa se comunicar com a **Oscar API
 ### Cenário 1: Testando via Emulador
 O Android Studio mapeia o endereço do seu PC (onde a API está rodando) para um IP especial.
 1. Certifique-se de que a API está rodando em `localhost:8080`.
-2. No App, defina: `private const val BASE_URL = "http://10.0.2.2:8080/"`.
+2. No App, defina: `const val BASE_URL = "http://10.0.2.2:8080/"`.
 
 ### Cenário 2: Testando via Celular Físico
 O computador e o celular devem estar na **mesma rede Wi-Fi**.
 1. Descubra o IP do seu computador (Windows: `ipconfig` | Linux/Mac: `ifconfig`). Exemplo: `192.168.1.15`.
-2. No App, defina: `private const val BASE_URL = "http://192.168.1.15:8080/"`.
+2. No App, defina: `const val BASE_URL = "http://192.168.1.15:8080/"`.
 3. Certifique-se de que o Firewall do Windows permita conexões na porta 8080.
 
 ---
