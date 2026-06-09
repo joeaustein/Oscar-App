@@ -25,7 +25,11 @@ class FilmeAdapter(
         holder.binding.tvNomeFilme.text = filme.nome
         holder.binding.tvGeneroFilme.text = filme.genero
 
-        val urlCompleta = OscarApiService.BASE_URL + filme.foto
+        val urlCompleta = if (filme.foto.startsWith("http")) {
+            filme.foto
+        } else {
+            OscarApiService.BASE_URL + filme.foto
+        }
 
         Glide.with(holder.itemView.context)
             .load(urlCompleta)

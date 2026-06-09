@@ -39,7 +39,11 @@ class FilmeDetalheActivity : AppCompatActivity() {
         binding.tvNomeDetalhe.text = nome
         binding.tvGeneroDetalhe.text = genero
         
-        val urlCompleta = OscarApiService.BASE_URL + foto
+        val urlCompleta = if (foto.startsWith("http")) {
+            foto
+        } else {
+            OscarApiService.BASE_URL + foto
+        }
         Glide.with(this).load(urlCompleta).into(binding.ivPosterDetalhe)
 
         if (VoteManager.voto.confirmado || sessionManager.hasVoted()) {
