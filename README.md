@@ -76,6 +76,7 @@ O computador e o celular devem estar na **mesma rede Wi-Fi**.
 ---
 
 ## Dados de Teste (API Seed)
-- **Logins:** `user1` até `user5`
-- **Senhas:** `pass1` até `pass5`
+- Há **20** usuários já cadastrados no BD
+- **Logins:** `user1` até `user20`
+- **Senhas:** `pass1` até `pass20`
 - **Importante:** `user1` já inicia com voto confirmado para testar a trava de segurança.
