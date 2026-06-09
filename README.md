@@ -33,18 +33,18 @@ O **Oscar App** é um aplicativo Android nativo desenvolvido em Kotlin para a di
 
 ## Configuração e Integração com a API
 
-Para que o App funcione corretamente, ele precisa se comunicar com a **Oscar API**. O endereço da `BASE_URL` deve ser configurado no arquivo:  
-`app/src/main/java/com/example/oscar_app/api/OscarApiService.kt`
+Para que o App funcione corretamente, ele precisa se comunicar com a **Oscar API**. O endereço da `BASE_URL` deve ser configurado no arquivo central de configurações:  
+`app/src/main/java/com/example/oscar_app/api/NetworkConfig.kt`
 
 ### Cenário 1: Testando via Emulador
 O Android Studio mapeia o endereço do seu PC (onde a API está rodando) para um IP especial.
 1. Certifique-se de que a API está rodando em `localhost:8080`.
-2. No App, defina: `const val BASE_URL = "http://10.0.2.2:8080/"`.
+2. No App, dentro de `NetworkConfig.kt`, defina: `const val BASE_URL = "http://10.0.2.2:8080/"`.
 
 ### Cenário 2: Testando via Celular Físico
 O computador e o celular devem estar na **mesma rede Wi-Fi**.
 1. Descubra o IP do seu computador (Windows: `ipconfig` | Linux/Mac: `ifconfig`). Exemplo: `192.168.1.15`.
-2. No App, defina: `const val BASE_URL = "http://192.168.1.15:8080/"`.
+2. No App, dentro de `NetworkConfig.kt`, defina: `const val BASE_URL = "http://192.168.1.15:8080/"`.
 3. Certifique-se de que o Firewall do Windows permita conexões na porta 8080.
 
 ---

@@ -23,13 +23,9 @@ interface OscarApiService {
     fun getDiretores(): Call<List<Diretor>>
 
     companion object {
-        // Para teste via Emulador:
-        //const val BASE_URL = "http://10.0.2.2:8080/"
-        // Para teste via Celular:
-        const val BASE_URL = "http://192.168.1.2:8080/"
         fun create(): OscarApiService {
             val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(NetworkConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(OscarApiService::class.java)

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.oscar_app.api.OscarApiService
+import com.example.oscar_app.api.NetworkConfig
 import com.example.oscar_app.databinding.ItemFilmeBinding
 import com.example.oscar_app.models.Filme
 
@@ -28,7 +28,7 @@ class FilmeAdapter(
         val urlCompleta = if (filme.foto.startsWith("http")) {
             filme.foto
         } else {
-            OscarApiService.BASE_URL + filme.foto
+            NetworkConfig.BASE_URL + filme.foto
         }
 
         Glide.with(holder.itemView.context)

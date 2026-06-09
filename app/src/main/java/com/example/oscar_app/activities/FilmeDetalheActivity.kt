@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.oscar_app.api.OscarApiService
+import com.example.oscar_app.api.NetworkConfig
 import com.example.oscar_app.databinding.ActivityFilmeDetalheBinding
 import com.example.oscar_app.session.SessionManager
 import com.example.oscar_app.session.VoteManager
@@ -42,7 +42,7 @@ class FilmeDetalheActivity : AppCompatActivity() {
         val urlCompleta = if (foto.startsWith("http")) {
             foto
         } else {
-            OscarApiService.BASE_URL + foto
+            NetworkConfig.BASE_URL + foto
         }
         Glide.with(this).load(urlCompleta).into(binding.ivPosterDetalhe)
 
