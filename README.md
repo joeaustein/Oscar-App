@@ -1,10 +1,10 @@
-# Oscar App 🏆
+# Oscar App
 
 O **Oscar App** é um aplicativo Android nativo desenvolvido em Kotlin para a disciplina de Desenvolvimento para Dispositivos Móveis (DS151). O objetivo do app é permitir que entusiastas do cinema participem da votação do Oscar de forma intuitiva, consumindo serviços de uma API REST centralizada.
 
 ---
 
-## 🚀 Funcionalidades Implementadas
+## Funcionalidades Implementadas
 
 - **Autenticação Segura**: Tela de login com validação de campos e integração com a API.
 - **Sessão de Usuário**: Gerenciamento de sessão com `SharedPreferences` para persistir o token e dados do usuário.
@@ -22,7 +22,7 @@ O **Oscar App** é um aplicativo Android nativo desenvolvido em Kotlin para a di
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Linguagem:** [Kotlin](https://kotlinlang.org/)
 - **Network:** [Retrofit 2](https://square.github.io/retrofit/) & [Gson](https://github.com/google/gson)
@@ -31,17 +31,17 @@ O **Oscar App** é um aplicativo Android nativo desenvolvido em Kotlin para a di
 
 ---
 
-## ⚙️ Configuração e Integração com a API
+## Configuração e Integração com a API
 
 Para que o App funcione corretamente, ele precisa se comunicar com a **Oscar API**. O endereço da `BASE_URL` deve ser configurado no arquivo:  
 `app/src/main/java/com/example/oscar_app/api/OscarApiService.kt`
 
-### 📱 Cenário 1: Testando via Emulador
+### Cenário 1: Testando via Emulador
 O Android Studio mapeia o endereço do seu PC (onde a API está rodando) para um IP especial.
 1. Certifique-se de que a API está rodando em `localhost:8080`.
 2. No App, defina: `private const val BASE_URL = "http://10.0.2.2:8080/"`.
 
-### 📶 Cenário 2: Testando via Celular Físico
+### Cenário 2: Testando via Celular Físico
 O computador e o celular devem estar na **mesma rede Wi-Fi**.
 1. Descubra o IP do seu computador (Windows: `ipconfig` | Linux/Mac: `ifconfig`). Exemplo: `192.168.1.15`.
 2. No App, defina: `private const val BASE_URL = "http://192.168.1.15:8080/"`.
@@ -49,7 +49,7 @@ O computador e o celular devem estar na **mesma rede Wi-Fi**.
 
 ---
 
-## 🧪 Passo a Passo para Teste
+## Passo a Passo para Teste
 
 ### 1. Preparação
 - Inicie a **Oscar API** (verifique se o banco `oscar.db` foi criado).
@@ -75,7 +75,7 @@ O computador e o celular devem estar na **mesma rede Wi-Fi**.
 
 ---
 
-## 👥 Dados de Teste (API Seed)
+## Dados de Teste (API Seed)
 - **Logins:** `user1` até `user5`
 - **Senhas:** `pass1` até `pass5`
 - **Importante:** `user1` já inicia com voto confirmado para testar a trava de segurança.
