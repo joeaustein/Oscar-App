@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.oscar_app.api.OscarApiService
 import com.example.oscar_app.databinding.ItemFilmeBinding
 import com.example.oscar_app.models.Filme
 
@@ -24,8 +25,10 @@ class FilmeAdapter(
         holder.binding.tvNomeFilme.text = filme.nome
         holder.binding.tvGeneroFilme.text = filme.genero
 
+        val urlCompleta = OscarApiService.BASE_URL + filme.foto
+
         Glide.with(holder.itemView.context)
-            .load(filme.foto)
+            .load(urlCompleta)
             .into(holder.binding.ivPoster)
 
         holder.itemView.setOnClickListener { onItemClick(filme) }

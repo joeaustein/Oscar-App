@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.oscar_app.api.OscarApiService
 import com.example.oscar_app.databinding.ActivityFilmeDetalheBinding
 import com.example.oscar_app.session.SessionManager
 import com.example.oscar_app.session.VoteManager
@@ -37,7 +38,9 @@ class FilmeDetalheActivity : AppCompatActivity() {
 
         binding.tvNomeDetalhe.text = nome
         binding.tvGeneroDetalhe.text = genero
-        Glide.with(this).load(foto).into(binding.ivPosterDetalhe)
+        
+        val urlCompleta = OscarApiService.BASE_URL + foto
+        Glide.with(this).load(urlCompleta).into(binding.ivPosterDetalhe)
 
         if (VoteManager.voto.confirmado || sessionManager.hasVoted()) {
             binding.btnVotarFilmeDetalhe.isEnabled = false
