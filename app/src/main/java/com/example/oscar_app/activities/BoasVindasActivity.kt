@@ -2,9 +2,13 @@ package com.example.oscar_app.activities
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.oscar_app.databinding.ActivityBoasVindasBinding
 import com.example.oscar_app.session.SessionManager
+import com.example.oscar_app.session.VoteManager
 
 class BoasVindasActivity : AppCompatActivity() {
 
@@ -13,8 +17,15 @@ class BoasVindasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityBoasVindasBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         sessionManager = SessionManager(this)
 
