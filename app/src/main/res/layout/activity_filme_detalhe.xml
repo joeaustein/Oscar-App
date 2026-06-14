@@ -1,48 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/fundo"
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/ivPosterDetalhe"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvNomeDetalhe"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPosterDetalhe" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="24dp">
 
-    <TextView
-        android:id="@+id/tvGeneroDetalhe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNomeDetalhe" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_detalhe_filme"
+            android:textColor="@color/texto_principal"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnVotarFilmeDetalhe"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Votar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGeneroDetalhe" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="220dp"
+            android:layout_height="310dp"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="@color/fundo_imagem"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/ivPosterDetalhe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/poster_filme"
+                android:scaleType="centerCrop" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvNomeDetalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textColor="@color/texto_principal"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvGeneroDetalhe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/texto_secundario"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVotarFilmeDetalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="@color/azul_escuro"
+            android:text="@string/btn_votar"
+            android:textColor="@color/branco"
+            app:cornerRadius="6dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,13 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Oscar App</string>
     <string name="title_boas_vindas">Oscar App</string>
-    <string name="token_label">Token de Votação:</string>
+    <string name="subtitle_login">Entre para registrar seus votos</string>
+    <string name="hint_login">Login</string>
+    <string name="hint_senha">Senha</string>
+    <string name="btn_entrar">Entrar</string>
+    <string name="welcome_title">Bem-vindo ao Oscar App</string>
+    <string name="welcome_subtitle">Escolha seus favoritos e confirme seu voto.</string>
+    <string name="token_label">Seu token de votação</string>
     <string name="btn_votar_filme">Votar Filme</string>
     <string name="btn_votar_diretor">Votar Diretor</string>
     <string name="btn_confirmar_voto">Confirmar Voto</string>
     <string name="btn_ver_votos">Ver Votos Confirmados</string>
     <string name="btn_sair">Sair</string>
-    <string name="label_filme_selecionado">Filme Selecionado:</string>
-    <string name="label_diretor_selecionado">Diretor Selecionado:</string>
-    <string name="hint_token">Digite seu Token</string>
+    <string name="title_filmes">Escolha um filme</string>
+    <string name="subtitle_filmes">Toque em um filme para ver os detalhes.</string>
+    <string name="title_diretores">Escolha um diretor</string>
+    <string name="subtitle_diretores">Selecione uma opção para continuar.</string>
+    <string name="btn_confirmar_diretor">Confirmar diretor</string>
+    <string name="title_detalhe_filme">Detalhes do filme</string>
+    <string name="btn_votar">Votar neste filme</string>
+    <string name="title_revisao">Revisão do voto</string>
+    <string name="subtitle_revisao">Confira suas escolhas antes de finalizar.</string>
+    <string name="label_filme_selecionado">Filme selecionado</string>
+    <string name="label_diretor_selecionado">Diretor selecionado</string>
+    <string name="hint_token">Digite seu token</string>
+    <string name="btn_finalizar_voto">Confirmar voto</string>
+    <string name="nenhum">Nenhum</string>
+    <string name="poster_filme">Pôster do filme</string>
+    <string name="trofeu_oscar">Troféu do Oscar</string>
 </resources>

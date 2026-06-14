@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="preto">#FF000000</color>
+    <color name="branco">#FFFFFFFF</color>
+    <color name="azul_principal">#2563EB</color>
+    <color name="azul_escuro">#0B1220</color>
+    <color name="fundo_boas_vindas">#FFF8CD</color>
+    <color name="fundo_trofeu">#7E5F28</color>
+    <color name="borda_trofeu">#F4C542</color>
+    <color name="secundaria">#64748B</color>
+    <color name="fundo">#F6F7FB</color>
+    <color name="superficie">#FFFFFFFF</color>
+    <color name="texto_principal">#1F2937</color>
+    <color name="texto_secundario">#6B7280</color>
+    <color name="contorno">#DDE2EA</color>
+    <color name="fundo_imagem">#E9EDF3</color>
+    <color name="erro">#B3261E</color>
+</resources>
