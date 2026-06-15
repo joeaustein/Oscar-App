@@ -48,6 +48,7 @@ class BoasVindasActivity : AppCompatActivity() {
             binding.btnConfirmarVoto.setText(com.example.oscar_app.R.string.btn_ver_votos)
         }
 
+
         binding.btnVotarFilme.setOnClickListener {
             startActivity(Intent(this, ListaFilmesActivity::class.java))
         }

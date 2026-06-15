@@ -45,6 +45,8 @@ class VotarDiretorActivity : AppCompatActivity() {
 
         carregarDiretores()
 
+        ////quando usuario clica em confrimar, o app ve qual RadioButton esta marcado
+        //se nenhum estivar marcado, mostra: selecione um diretor
         binding.btnConfirmarDiretor.setOnClickListener {
             val checkedId = binding.rgDiretores.checkedRadioButtonId
             if (checkedId == -1) {
@@ -55,6 +57,7 @@ class VotarDiretorActivity : AppCompatActivity() {
             val radioButton = findViewById<RadioButton>(checkedId)
             val diretor = diretoresList.find { it.nome == radioButton.text }
 
+            // se tiver um selecionado, registra o diretor no VoteManager
             diretor?.let {
                 VoteManager.registrarDiretor(it.id, it.nome)
                 Toast.makeText(this, "Voto em ${it.nome} registrado!", Toast.LENGTH_SHORT).show()
@@ -63,6 +66,7 @@ class VotarDiretorActivity : AppCompatActivity() {
         }
     }
 
+    //carrega os diretores da API
     private fun carregarDiretores() {
         binding.pbDiretor.visibility = View.VISIBLE
         apiService.getDiretores().enqueue(object : Callback<List<Diretor>> {
@@ -83,6 +87,7 @@ class VotarDiretorActivity : AppCompatActivity() {
         })
     }
 
+    //enquanto carrega mostra ´bDiretor, quando recebe a resposta, salva a lista e chama
     private fun popularRadioGroup(diretores: List<Diretor>) {
         binding.rgDiretores.removeAllViews()
         diretores.forEach { diretor ->

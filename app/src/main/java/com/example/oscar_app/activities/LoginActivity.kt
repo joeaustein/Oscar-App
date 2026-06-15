@@ -1,5 +1,5 @@
 package com.example.oscar_app.activities
-
+// ela cria o binding o que faz coectar o kotlin ao layout activity_login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -37,10 +37,14 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        //depois ele cria p session manager, onde cuida da sessao usuario, se o usuario ja tiver logado
+        // ele pula para tela de boas vindas
         if (sessionManager.isLoggedIn()) {
             openBoasVindas()
         }
 
+        //quando o usuario clica no botao de entrar, o codigo pega os campos da tela
+        // se algum estiver vazio, mostra um TOAST. Se tiver tudo preenchido, chama BoasVindasActivity
         binding.btnEntrar.setOnClickListener {
             val login = binding.etLogin.text.toString()
             val senha = binding.etSenha.text.toString()
@@ -54,10 +58,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    //a funcao envia o login para a API usando retrofit
     private fun realizarLogin(login: String, senha: String) {
         val request = LoginRequest(login, senha)
         apiService.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                // se der tudo certo, salva no sessionmanager e deois abre a tela de boas vindas
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null && loginResponse.success) {
@@ -67,6 +73,8 @@ class LoginActivity : AppCompatActivity() {
                             token = loginResponse.token
                         )
                         openBoasVindas()
+                        //se der erro mostra a mensagem especifica 401 -> login ou senha errados
+                        //400 dados de login invalidos
                     } else {
                         exibirErro("Falha na autenticação")
                     }

@@ -22,6 +22,7 @@ class ListaFilmesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListaFilmesBinding
     private val apiService by lazy { OscarApiService.create() }
 
+    // no oncreate ele configura a lista
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,13 +39,18 @@ class ListaFilmesActivity : AppCompatActivity() {
         carregarFilmes()
     }
 
+    // a função carregar filmes mostra uma barra de carregamento
     private fun carregarFilmes() {
         binding.progressBar.visibility = View.VISIBLE
+        //depois chama a API
         apiService.getFilmes().enqueue(object : Callback<List<Filme>> {
             override fun onResponse(call: Call<List<Filme>>, response: Response<List<Filme>>) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
                     val filmes = response.body() ?: emptyList()
+                    // quando filme chega ele cria o adapter
+                    // ao clicar em um filme, ele abre filmeDetalheActivity e envia dados pelo Intent
+                    // como ID, nome genero e foto
                     binding.rvFilmes.adapter = FilmeAdapter(filmes) { filme ->
                         val intent = Intent(this@ListaFilmesActivity, FilmeDetalheActivity::class.java)
                         intent.putExtra("FILME_ID", filme.id)

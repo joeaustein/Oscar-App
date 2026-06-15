@@ -37,9 +37,11 @@ class ConfirmarVotoActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        //essa tela mostra o filme e o diretor escolhido
         binding.tvFilmeEscolhido.text = VoteManager.voto.filmeNome ?: "Não selecionado"
         binding.tvDiretorEscolhido.text = VoteManager.voto.diretorNome ?: "Não selecionado"
 
+        // se o usuario ja votou, a tela bloqueia o botao e o campo de token
         if (sessionManager.hasVoted()) {
             binding.btnFinalizarVoto.isEnabled = false
             binding.etTokenConfirm.isEnabled = false
@@ -66,6 +68,7 @@ class ConfirmarVotoActivity : AppCompatActivity() {
         }
     }
 
+    //ele monta um VoteRequest
     private fun finalizarVoto(filmeId: String, diretorId: String, token: Int) {
         binding.pbConfirmar.visibility = View.VISIBLE
         
@@ -76,13 +79,16 @@ class ConfirmarVotoActivity : AppCompatActivity() {
             token = token
         )
 
+        //depois envia para a API
         apiService.confirmarVoto(request).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 binding.pbConfirmar.visibility = View.GONE
+                //se der certo
                 if (response.isSuccessful) {
                     sessionManager.setHasVoted(true, VoteManager.voto.filmeNome, VoteManager.voto.diretorNome)
                     VoteManager.voto.confirmado = true
                     exibirFeedback(true, "Voto registrado com sucesso!")
+                    // se der erro, ele mostra as mensagem de erro
                 } else {
                     val msg = when (response.code()) {
                         403 -> "Token inválido"
