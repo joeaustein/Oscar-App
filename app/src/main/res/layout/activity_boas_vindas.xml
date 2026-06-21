@@ -54,18 +54,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTokenLabel" />
 
+    <LinearLayout
+        android:id="@+id/llVotoConfirmado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvToken">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voto já realizado"
+            android:textColor="@color/erro"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvVotoResumo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textColor="@color/texto_principal" />
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVotarFilme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/azul_escuro"
         android:text="@string/btn_votar_filme"
         android:textColor="@color/branco"
         app:cornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvToken" />
+        app:layout_constraintTop_toBottomOf="@+id/llVotoConfirmado" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVotarDiretor"

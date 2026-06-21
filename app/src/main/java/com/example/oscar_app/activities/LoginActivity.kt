@@ -70,8 +70,15 @@ class LoginActivity : AppCompatActivity() {
                         sessionManager.saveSession(
                             userId = loginResponse.id ?: 0,
                             login = login,
-                            token = loginResponse.token
+                            token = loginResponse.token,
+                            jaVotou = loginResponse.jaVotou
                         )
+                        if (loginResponse.jaVotou) {
+                            sessionManager.saveVotedIds(
+                                loginResponse.voto?.filmeId,
+                                loginResponse.voto?.diretorId
+                            )
+                        }
                         openBoasVindas()
                         //se der erro mostra a mensagem especifica 401 -> login ou senha errados
                         //400 dados de login invalidos

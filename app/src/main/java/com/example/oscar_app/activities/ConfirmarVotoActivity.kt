@@ -1,5 +1,6 @@
 package com.example.oscar_app.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -112,7 +113,12 @@ class ConfirmarVotoActivity : AppCompatActivity() {
             .setTitle(if (sucesso) "Sucesso" else "Erro")
             .setMessage(mensagem)
             .setPositiveButton("OK") { _, _ ->
-                if (sucesso) finish()
+                if (sucesso) {
+                    val intent = Intent(this, BoasVindasActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
+                    finish()
+                }
             }
             .setCancelable(false)
             .show()
