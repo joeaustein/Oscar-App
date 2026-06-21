@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.oscar_app.R
 import com.example.oscar_app.api.OscarApiService
 import com.example.oscar_app.databinding.ActivityVotarDiretorBinding
 import com.example.oscar_app.models.Diretor
@@ -93,6 +94,7 @@ class VotarDiretorActivity : AppCompatActivity() {
         diretores.forEach { diretor ->
             val rb = RadioButton(this)
             rb.text = diretor.nome
+            rb.setTextColor(getColor(R.color.texto_principal))
             rb.id = View.generateViewId()
             binding.rgDiretores.addView(rb)
             

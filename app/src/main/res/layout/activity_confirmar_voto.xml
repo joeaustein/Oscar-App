@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:hint="@string/hint_token"
+                android:textColorHint="@color/texto_principal"
                 app:boxBackgroundColor="@color/superficie"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
@@ -117,7 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textColor="@color/texto_principal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
