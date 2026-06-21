@@ -22,7 +22,6 @@ class ListaFilmesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListaFilmesBinding
     private val apiService by lazy { OscarApiService.create() }
 
-    // no oncreate ele configura a lista
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,19 +38,20 @@ class ListaFilmesActivity : AppCompatActivity() {
         carregarFilmes()
     }
 
-    // a função carregar filmes mostra uma barra de carregamento
+    // PASSO 1: Consumo da lista de filmes via GET (Retrofit)
     private fun carregarFilmes() {
+        // Feedback visual de carregamento (Requisito: ProgressBar)
         binding.progressBar.visibility = View.VISIBLE
-        //depois chama a API
+        
         apiService.getFilmes().enqueue(object : Callback<List<Filme>> {
             override fun onResponse(call: Call<List<Filme>>, response: Response<List<Filme>>) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
                     val filmes = response.body() ?: emptyList()
-                    // quando filme chega ele cria o adapter
-                    // ao clicar em um filme, ele abre filmeDetalheActivity e envia dados pelo Intent
-                    // como ID, nome genero e foto
+                    
+                    // PASSO 2: Montagem da lista dinâmica com RecyclerView e Adapter customizado
                     binding.rvFilmes.adapter = FilmeAdapter(filmes) { filme ->
+                        // Navegação para Detalhes enviando dados via Intent Extra
                         val intent = Intent(this@ListaFilmesActivity, FilmeDetalheActivity::class.java)
                         intent.putExtra("FILME_ID", filme.id)
                         intent.putExtra("FILME_NOME", filme.nome)

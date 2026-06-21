@@ -19,6 +19,7 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
+    // Injeção de dependências: Binding para UI, Session para persistência e API para rede
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sessionManager: SessionManager
     private val apiService by lazy { OscarApiService.create() }
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Ajuste de padding para telas com notch/barra de status (Edge-to-Edge)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -37,18 +39,16 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        //depois ele cria p session manager, onde cuida da sessao usuario, se o usuario ja tiver logado
-        // ele pula para tela de boas vindas
+        // PASSO 1: Verificação automática de login para evitar re-autenticação desnecessária
         if (sessionManager.isLoggedIn()) {
             openBoasVindas()
         }
 
-        //quando o usuario clica no botao de entrar, o codigo pega os campos da tela
-        // se algum estiver vazio, mostra um TOAST. Se tiver tudo preenchido, chama BoasVindasActivity
         binding.btnEntrar.setOnClickListener {
             val login = binding.etLogin.text.toString()
             val senha = binding.etSenha.text.toString()
 
+            // PASSO 2: Validação de campos vazios (requisito obrigatório)
             if (login.isBlank() || senha.isBlank()) {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -58,21 +58,22 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    //a funcao envia o login para a API usando retrofit
+    // PASSO 3: Consumo do serviço REST de Autenticação via POST
     private fun realizarLogin(login: String, senha: String) {
         val request = LoginRequest(login, senha)
         apiService.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                // se der tudo certo, salva no sessionmanager e deois abre a tela de boas vindas
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null && loginResponse.success) {
+                        // PASSO 4: Salvamento seguro dos dados da sessão e status de voto
                         sessionManager.saveSession(
                             userId = loginResponse.id ?: 0,
                             login = login,
                             token = loginResponse.token,
                             jaVotou = loginResponse.jaVotou
                         )
+                        // Se já votou, guardamos os IDs para exibir na tela principal
                         if (loginResponse.jaVotou) {
                             sessionManager.saveVotedIds(
                                 loginResponse.voto?.filmeId,
@@ -80,12 +81,11 @@ class LoginActivity : AppCompatActivity() {
                             )
                         }
                         openBoasVindas()
-                        //se der erro mostra a mensagem especifica 401 -> login ou senha errados
-                        //400 dados de login invalidos
                     } else {
                         exibirErro("Falha na autenticação")
                     }
                 } else {
+                    // Tratamento de códigos HTTP semânticos (401, 400)
                     val msg = when (response.code()) {
                         401 -> "Login ou senha incorretos"
                         400 -> "Dados de login inválidos"

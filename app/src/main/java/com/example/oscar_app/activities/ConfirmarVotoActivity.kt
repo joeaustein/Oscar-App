@@ -38,11 +38,11 @@ class ConfirmarVotoActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        //essa tela mostra o filme e o diretor escolhido
+        // PASSO 1: Revisão dos Votos - Exibe o que foi selecionado localmente
         binding.tvFilmeEscolhido.text = VoteManager.voto.filmeNome ?: "Não selecionado"
         binding.tvDiretorEscolhido.text = VoteManager.voto.diretorNome ?: "Não selecionado"
 
-        // se o usuario ja votou, a tela bloqueia o botao e o campo de token
+        // PASSO 2: Bloqueio de Segurança - Impede nova confirmação se já houver registro no BD
         if (sessionManager.hasVoted()) {
             binding.btnFinalizarVoto.isEnabled = false
             binding.etTokenConfirm.isEnabled = false
@@ -52,6 +52,7 @@ class ConfirmarVotoActivity : AppCompatActivity() {
         binding.btnFinalizarVoto.setOnClickListener {
             val tokenInput = binding.etTokenConfirm.text.toString()
             
+            // Requisito: Bloqueio de campos vazios
             if (tokenInput.isBlank()) {
                 Toast.makeText(this, "Informe o token", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -60,6 +61,7 @@ class ConfirmarVotoActivity : AppCompatActivity() {
             val filmeId = VoteManager.voto.filmeId
             val diretorId = VoteManager.voto.diretorId
 
+            // Requisito: Validação de seleção completa antes do envio
             if (filmeId == null || diretorId == null) {
                 Toast.makeText(this, "Selecione um filme e um diretor primeiro", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -69,7 +71,7 @@ class ConfirmarVotoActivity : AppCompatActivity() {
         }
     }
 
-    //ele monta um VoteRequest
+    // PASSO 3: Consumo do serviço REST de Registro de Voto via POST
     private fun finalizarVoto(filmeId: String, diretorId: String, token: Int) {
         binding.pbConfirmar.visibility = View.VISIBLE
         
@@ -80,17 +82,16 @@ class ConfirmarVotoActivity : AppCompatActivity() {
             token = token
         )
 
-        //depois envia para a API
         apiService.confirmarVoto(request).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 binding.pbConfirmar.visibility = View.GONE
-                //se der certo
                 if (response.isSuccessful) {
+                    // PASSO 4: Persistência do sucesso localmente
                     sessionManager.setHasVoted(true, VoteManager.voto.filmeNome, VoteManager.voto.diretorNome)
                     VoteManager.voto.confirmado = true
                     exibirFeedback(true, "Voto registrado com sucesso!")
-                    // se der erro, ele mostra as mensagem de erro
                 } else {
+                    // Tratamento de erros: Token inválido (403), Já votou (409)
                     val msg = when (response.code()) {
                         403 -> "Token inválido"
                         409 -> "Usuário já possui um voto registrado"
@@ -108,12 +109,14 @@ class ConfirmarVotoActivity : AppCompatActivity() {
         })
     }
 
+    // PASSO 5: Feedback ao Usuário e Navegação de Recarregamento
     private fun exibirFeedback(sucesso: Boolean, mensagem: String) {
         AlertDialog.Builder(this)
             .setTitle(if (sucesso) "Sucesso" else "Erro")
             .setMessage(mensagem)
             .setPositiveButton("OK") { _, _ ->
                 if (sucesso) {
+                    // Recarrega a tela de Boas-Vindas para refletir o novo status de bloqueio
                     val intent = Intent(this, BoasVindasActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     startActivity(intent)

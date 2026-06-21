@@ -39,6 +39,7 @@ class VotarDiretorActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
+        // PASSO 1: Bloqueio de interface se o voto já estiver confirmado
         if (VoteManager.voto.confirmado || sessionManager.hasVoted()) {
             binding.btnConfirmarDiretor.isEnabled = false
             binding.btnConfirmarDiretor.text = "Voto Confirmado"
@@ -46,10 +47,9 @@ class VotarDiretorActivity : AppCompatActivity() {
 
         carregarDiretores()
 
-        ////quando usuario clica em confrimar, o app ve qual RadioButton esta marcado
-        //se nenhum estivar marcado, mostra: selecione um diretor
         binding.btnConfirmarDiretor.setOnClickListener {
             val checkedId = binding.rgDiretores.checkedRadioButtonId
+            // Se ainda nao tiver marcado nenhum
             if (checkedId == -1) {
                 Toast.makeText(this, "Selecione um diretor", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -58,8 +58,8 @@ class VotarDiretorActivity : AppCompatActivity() {
             val radioButton = findViewById<RadioButton>(checkedId)
             val diretor = diretoresList.find { it.nome == radioButton.text }
 
-            // se tiver um selecionado, registra o diretor no VoteManager
             diretor?.let {
+                // PASSO 2: Registro de voto local para o diretor
                 VoteManager.registrarDiretor(it.id, it.nome)
                 Toast.makeText(this, "Voto em ${it.nome} registrado!", Toast.LENGTH_SHORT).show()
                 finish()
@@ -67,7 +67,7 @@ class VotarDiretorActivity : AppCompatActivity() {
         }
     }
 
-    //carrega os diretores da API
+    // PASSO 3: Consumo de Diretores via GET (Retrofit)
     private fun carregarDiretores() {
         binding.pbDiretor.visibility = View.VISIBLE
         apiService.getDiretores().enqueue(object : Callback<List<Diretor>> {
@@ -88,17 +88,17 @@ class VotarDiretorActivity : AppCompatActivity() {
         })
     }
 
-    //enquanto carrega mostra ´bDiretor, quando recebe a resposta, salva a lista e chama
+    // PASSO 4: Criação DINÂMICA de interface (Requisito: RadioGroup adaptável ao JSON)
     private fun popularRadioGroup(diretores: List<Diretor>) {
         binding.rgDiretores.removeAllViews()
         diretores.forEach { diretor ->
             val rb = RadioButton(this)
             rb.text = diretor.nome
             rb.setTextColor(getColor(R.color.texto_principal))
-            rb.id = View.generateViewId()
+            rb.id = View.generateViewId() // Gera ID único para cada botão dinâmico
             binding.rgDiretores.addView(rb)
             
-            // Marcar se já foi selecionado anteriormente
+            // Mantém a seleção se o usuário já tiver escolhido mas não confirmado
             if (diretor.id == VoteManager.voto.diretorId) {
                 rb.isChecked = true
             }

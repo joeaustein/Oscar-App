@@ -37,7 +37,7 @@ class BoasVindasActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        // Sincronizar VoteManager com a sessão (caso o usuário já tenha votado)
+        // PASSO 1: Sincronização e Bloqueio - Verifica se o usuário já confirmou o voto
         if (sessionManager.hasVoted()) {
             VoteManager.voto.confirmado = true
             VoteManager.voto.filmeNome = sessionManager.getVotedFilme()
@@ -46,7 +46,7 @@ class BoasVindasActivity : AppCompatActivity() {
             exibirVotoConfirmado()
         }
 
-        // Exibir token recebido
+        // PASSO 2: Exibição do Token aleatório gerado pelo servidor no momento do Login
         val token = sessionManager.getToken()
         binding.tvToken.text = if (token != -1) token.toString() else "N/A"
 
@@ -55,7 +55,7 @@ class BoasVindasActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Recarregar status de voto ao voltar para esta tela
+        // PASSO 3: Atualização em tempo real ao voltar da tela de confirmação
         if (sessionManager.hasVoted()) {
             VoteManager.voto.confirmado = true
             VoteManager.voto.filmeNome = sessionManager.getVotedFilme()
@@ -66,6 +66,7 @@ class BoasVindasActivity : AppCompatActivity() {
         }
     }
 
+    // PASSO 4: Lógica de Feedback visual para voto já realizado
     private fun exibirVotoConfirmado() {
         binding.llVotoConfirmado.visibility = View.VISIBLE
         
@@ -75,11 +76,12 @@ class BoasVindasActivity : AppCompatActivity() {
         if (filmeNome != null && diretorNome != null) {
             binding.tvVotoResumo.text = "Filme: $filmeNome\nDiretor: $diretorNome"
         } else {
-            // Se não temos os nomes, buscamos pelos IDs
+            // Se os nomes não estão em cache, busca na API para garantir exibição correta
             buscarNomesVotos()
         }
     }
 
+    // PASSO 5: Busca assíncrona de detalhes do voto via GET
     private fun buscarNomesVotos() {
         val filmeId = sessionManager.getVotedFilmeId()
         val diretorId = sessionManager.getVotedDiretorId()
@@ -97,7 +99,6 @@ class BoasVindasActivity : AppCompatActivity() {
                         val dNome = diretor?.nome ?: "Desconhecido"
                         
                         binding.tvVotoResumo.text = "Filme: $fNome\nDiretor: $dNome"
-                        // Opcional: salvar nomes na sessão para evitar nova busca
                         sessionManager.setHasVoted(true, fNome, dNome)
                     }
                     override fun onFailure(call: Call<List<Diretor>>, t: Throwable) {}
@@ -107,11 +108,11 @@ class BoasVindasActivity : AppCompatActivity() {
         })
     }
 
+    // PASSO 6: Menu de Navegação - Bloqueia ações se o voto estiver confirmado
     private fun setupButtons() {
         if (sessionManager.hasVoted()) {
             binding.btnConfirmarVoto.setText(com.example.oscar_app.R.string.btn_ver_votos)
             
-            // Desabilitar e deixar acizentado (menos opacidade)
             binding.btnVotarFilme.isEnabled = false
             binding.btnVotarFilme.alpha = 0.5f
             

@@ -31,33 +31,31 @@ class FilmeDetalheActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        //recebe os dados enviados pela lista
+        // PASSO 1: Recuperação dos dados passados pela Lista
         val id = intent.getStringExtra("FILME_ID") ?: ""
         val nome = intent.getStringExtra("FILME_NOME") ?: ""
         val genero = intent.getStringExtra("FILME_GENERO") ?: ""
         val foto = intent.getStringExtra("FILME_FOTO") ?: ""
 
-        //depois coloca esses dados na tela
         binding.tvNomeDetalhe.text = nome
         binding.tvGeneroDetalhe.text = genero
         
+        // PASSO 2: Carregamento Assíncrono da Imagem (Requisito: Glide + URL do JSON)
         val urlCompleta = if (foto.startsWith("http")) {
             foto
         } else {
             NetworkConfig.BASE_URL + foto
         }
-
-        // e carrega a imagem com glide, se o usuario ja votou, o botao é bloqueado
         Glide.with(this).load(urlCompleta).into(binding.ivPosterDetalhe)
 
+        // PASSO 3: Bloqueio de Edição - Verifica se o voto geral já foi confirmado
         if (VoteManager.voto.confirmado || sessionManager.hasVoted()) {
             binding.btnVotarFilmeDetalhe.isEnabled = false
             binding.btnVotarFilmeDetalhe.text = "Voto Confirmado"
         }
 
-        // se ainda pode vota, ao clicar o app registra o filme localmente no VOTOMANAGER
-        // depois mostra uma mensagem e fecha a tela
         binding.btnVotarFilmeDetalhe.setOnClickListener {
+            // PASSO 4: Registro de Voto Local (Ainda não enviado ao servidor)
             VoteManager.registrarFilme(id, nome)
             Toast.makeText(this, "Voto em $nome registrado localmente!", Toast.LENGTH_SHORT).show()
             finish()
