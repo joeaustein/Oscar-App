@@ -43,9 +43,13 @@ class ListaFilmesActivity : AppCompatActivity() {
         // Feedback visual de carregamento (Requisito: ProgressBar)
         binding.progressBar.visibility = View.VISIBLE
         
+        // Faz a chamada assíncrona ao servidor
         apiService.getFilmes().enqueue(object : Callback<List<Filme>> {
             override fun onResponse(call: Call<List<Filme>>, response: Response<List<Filme>>) {
+                // Esconde a barra de progresso independente do resultado
                 binding.progressBar.visibility = View.GONE
+                
+                // Verifica se a API respondeu com sucesso
                 if (response.isSuccessful) {
                     val filmes = response.body() ?: emptyList()
                     
@@ -53,6 +57,7 @@ class ListaFilmesActivity : AppCompatActivity() {
                     binding.rvFilmes.adapter = FilmeAdapter(filmes) { filme ->
                         // Navegação para Detalhes enviando dados via Intent Extra
                         val intent = Intent(this@ListaFilmesActivity, FilmeDetalheActivity::class.java)
+                        // Passa os dados do filme clicado para a próxima tela
                         intent.putExtra("FILME_ID", filme.id)
                         intent.putExtra("FILME_NOME", filme.nome)
                         intent.putExtra("FILME_GENERO", filme.genero)
@@ -60,11 +65,13 @@ class ListaFilmesActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                 } else {
+                    // Erro no retorno do servidor
                     Toast.makeText(this@ListaFilmesActivity, "Erro ao carregar filmes", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Filme>>, t: Throwable) {
+                // Falha de rede ou conexão recusada
                 binding.progressBar.visibility = View.GONE
                 Toast.makeText(this@ListaFilmesActivity, "Falha na conexão", Toast.LENGTH_SHORT).show()
             }

@@ -90,12 +90,18 @@ class VotarDiretorActivity : AppCompatActivity() {
 
     // PASSO 4: Criação DINÂMICA de interface (Requisito: RadioGroup adaptável ao JSON)
     private fun popularRadioGroup(diretores: List<Diretor>) {
+        // Limpa a interface anterior para evitar duplicação
         binding.rgDiretores.removeAllViews()
+        
+        // Percorre a lista recebida para criar um botão para cada diretor
         diretores.forEach { diretor ->
             val rb = RadioButton(this)
             rb.text = diretor.nome
+            // Aplica a cor da paleta definida nos requisitos
             rb.setTextColor(getColor(R.color.texto_principal))
             rb.id = View.generateViewId() // Gera ID único para cada botão dinâmico
+            
+            // Adiciona o botão criado ao grupo da tela
             binding.rgDiretores.addView(rb)
             
             // Mantém a seleção se o usuário já tiver escolhido mas não confirmado

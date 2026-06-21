@@ -26,11 +26,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Ativa o layout que ocupa toda a tela, incluindo atrás das barras de sistema
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ajuste de padding para telas com notch/barra de status (Edge-to-Edge)
+        // Ajuste de padding para evitar que o conteúdo fique sob a barra de status ou navegação
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -45,15 +46,18 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnEntrar.setOnClickListener {
+            // Captura o que foi digitado
             val login = binding.etLogin.text.toString()
             val senha = binding.etSenha.text.toString()
 
             // PASSO 2: Validação de campos vazios (requisito obrigatório)
             if (login.isBlank() || senha.isBlank()) {
+                // Impede o envio se faltar dados
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            // Inicia o processo de login
             realizarLogin(login, senha)
         }
     }
@@ -63,8 +67,10 @@ class LoginActivity : AppCompatActivity() {
         val request = LoginRequest(login, senha)
         apiService.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                // Verifica se a resposta foi 200 OK
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
+                    // Verifica se a API retornou sucesso no JSON
                     if (loginResponse != null && loginResponse.success) {
                         // PASSO 4: Salvamento seguro dos dados da sessão e status de voto
                         sessionManager.saveSession(
@@ -80,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
                                 loginResponse.voto?.diretorId
                             )
                         }
+                        // Vai para a tela inicial
                         openBoasVindas()
                     } else {
                         exibirErro("Falha na autenticação")
